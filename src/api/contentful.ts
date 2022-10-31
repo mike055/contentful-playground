@@ -1,6 +1,9 @@
 import { Asset, createClient } from "contentful";
-import { Category } from "../types/category.type";
-import { ContentType } from "../types/contentTypes.type";
+import {
+  CONTENT_TYPE,
+  ICategoryFields,
+} from "../../@types/generated/contentful";
+import { Category, Image } from "../types/category.type";
 
 const space = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID || "";
 const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN || "";
@@ -10,27 +13,23 @@ const client = createClient({
   accessToken: accessToken,
 });
 
-type ContentfulCategoryFields = {
-  name: string;
-  description: string;
-  image: Asset;
-};
-
 export const fetchCategories = async () => {
-  const contRes = await fetchEntries<ContentfulCategoryFields>("category");
+  const contRes = await fetchEntries<ICategoryFields>("category");
   return contRes.map((c) => {
+    const categoryImage = c.fields.image && {
+      url: c.fields.image.fields.file.url,
+      title: c.fields.image.fields.title,
+    };
+
     return {
       name: c.fields.name,
       description: c.fields.description,
-      image: {
-        url: c.fields.image.fields.file.url,
-        title: c.fields.image.fields.title,
-      },
+      image: categoryImage,
     } as Category;
   });
 };
 
-async function fetchEntries<T>(contentType: ContentType) {
+async function fetchEntries<T>(contentType: CONTENT_TYPE) {
   const entries = await client.getEntries<T>({ content_type: contentType });
   if (entries.items) return entries.items;
   else {

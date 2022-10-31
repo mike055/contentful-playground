@@ -6,10 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "content-type-migration": "export $(xargs < .env.local) && node ./migration/contentTypeMigration.js",
+    "contentful-typescript-codegen": "export $(xargs < .env.local) && contentful-typescript-codegen --output @types/generated/contentful.d.ts"
   },
   "dependencies": {
     "contentful": "^9.2.7",
+    "contentful-migration": "^4.12.0",
+    "contentful-typescript-codegen": "^3.2.3",
     "next": "13.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"

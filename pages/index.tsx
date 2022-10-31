@@ -29,7 +29,12 @@ export default function Home(props: HomeProps) {
               >
                 <h2>{c.name}</h2>
                 <p>{c.description}</p>
-                <img src={c.image.url} alt={c.image.title} />
+                {
+                  c.image && (
+                    <img height="100" width="100" src={c.image.url} alt={c.image.title} />
+                  )
+                }
+                
               </div>
             );
           })}
