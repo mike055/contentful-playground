@@ -1,8 +1,10 @@
 import { Asset, createClient } from "contentful";
 import {
   CONTENT_TYPE,
+  IBlogPostFields,
   ICategoryFields,
 } from "../../@types/generated/contentful";
+import { BlogPost } from "../types/blogPost.type";
 import { Category, Image } from "../types/category.type";
 
 const space = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID || "";
@@ -14,7 +16,7 @@ const client = createClient({
 });
 
 export const fetchCategories = async () => {
-  const contRes = await fetchEntries<ICategoryFields>("category");
+  const contRes = await fetchEntries<ICategoryFields>('category');
   return contRes.map((c) => {
     const categoryImage = c.fields.image && {
       url: c.fields.image.fields.file.url,
@@ -26,6 +28,20 @@ export const fetchCategories = async () => {
       description: c.fields.description,
       image: categoryImage,
     } as Category;
+  });
+};
+
+export const fetchBlogs = async () => {
+  const contRes = await fetchEntries<IBlogPostFields>('blogPost');
+  return contRes.map((b) => {
+    return {
+      title: b.fields.title,
+      text: b.fields.text,
+      slug: b.fields.urlSlug,
+      category: {
+        name: b.fields.category.fields.name
+      }
+    } as BlogPost;
   });
 };
 

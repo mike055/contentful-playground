@@ -9,7 +9,8 @@ const options = {
 console.log(options);
 
 const migrations = async () => {
-  await runMigration({ ...options, ...{ migrationFunction: require('./scripts/01-initial-migration') } });
+  //await runMigration({ ...options, ...{ migrationFunction: require('./scripts/01-initial-migration') } });
+  await runMigration({ ...options, ...{ migrationFunction: require('./scripts/02-add-slug-to-blog') } });
 };
 
 migrations();

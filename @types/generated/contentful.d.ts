@@ -37,6 +37,9 @@ export interface IBlogPostFields {
 
   /** Category */
   category: ICategory;
+
+  /** Url Slug */
+  urlSlug: string;
 }
 
 export interface IBlogPost extends Entry<IBlogPostFields> {

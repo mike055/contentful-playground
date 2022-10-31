@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { fetchCategories } from "../src/api/contentful";
 import { Category } from "../src/types/category.type";
 
@@ -16,6 +17,7 @@ export default function Home(props: HomeProps) {
 
       <main>
         <h1>Contentful playground</h1>
+        <Link href="/blogs">See all blogs</Link>
         <div>
           {props.categories.map((c, i) => {
             return (
